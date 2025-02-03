@@ -1,8 +1,6 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-
-// استخدم require لاستدعاء الحزمة
-const serverlessExpress = require('@vendia/serverless-express');
+import serverlessExpress from '@vendia/serverless-express'
 
 let server: any;
 
@@ -10,13 +8,12 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   await app.init();
   const expressApp = app.getHttpAdapter().getInstance();
-  // استدعاء الدالة من serverlessExpress وتحويل التطبيق إلى دالة Serverless
   server = serverlessExpress({ app: expressApp });
 }
-bootstrap();
 
-const handler = (event: any, context: any) => {
+export const handler = async (event: any, context: any) => {
+  if (!server) {
+    await bootstrap(); // تأكد من تهيئة السيرفر عند أول استدعاء
+  }
   return server(event, context);
 };
-
-export default handler;
