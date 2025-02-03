@@ -28,4 +28,10 @@ export class AuthController {
   async getAllUsers() {
     return this.authService.getAllUsers()
   }
+
+  @Get()
+  getRoot(): string {
+    return 'Hello from NestJS!';
+  }
+
 }
