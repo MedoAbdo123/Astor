@@ -1,4 +1,4 @@
-import { Module, UseFilters } from '@nestjs/common';
+import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { AuthModule } from './auth/auth.module';
@@ -7,14 +7,16 @@ import { CartModule } from './cart/cart.module';
 
 @Module({
   imports: [
-    ConfigModule.forRoot({
+    ConfigModule.forRoot({ // تأكد من وجود هذا
       isGlobal: true,
-      envFilePath: ['.env.development.local'],
+      envFilePath: '.env', // اختياري إذا كنت تستخدم ملف .env
     }),
     MongooseModule.forRootAsync({
-      useFactory: () => ({
-        uri: process.env.MONGO_URL,
+      imports: [ConfigModule],
+      useFactory: async (config: ConfigService) => ({
+        uri: config.get<string>('MONGO_URL'),
       }),
+      inject: [ConfigService],
     }),
     AuthModule,
     ProductsModule,
