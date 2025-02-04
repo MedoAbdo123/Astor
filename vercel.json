@@ -3,7 +3,7 @@
   "env": {
       "MONGO_URL": "mongodb://127.0.0.1/Astor",
       "SECRET_KEY": "your-256-bit-secret",
-      "PORT": 3000
+      "PORT": "3000"
   },
   "builds": [
       {
