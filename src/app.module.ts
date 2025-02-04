@@ -11,7 +11,11 @@ import { CartModule } from './cart/cart.module';
       isGlobal: true,
       envFilePath: ['.env.development.local'],
     }),
-    MongooseModule.forRoot(process.env.MONGO_URL),
+    MongooseModule.forRootAsync({
+      useFactory: () => ({
+        uri: process.env.MONGO_URL,
+      }),
+    }),
     AuthModule,
     ProductsModule,
     CartModule
