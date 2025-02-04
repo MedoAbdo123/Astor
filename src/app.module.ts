@@ -8,6 +8,7 @@ import { CartModule } from './cart/cart.module';
 @Module({
   imports: [
     ConfigModule.forRoot({
+      isGlobal: true,
       envFilePath: ['.env.development.local'],
     }),
     MongooseModule.forRoot(process.env.MONGO_URL),
